@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
+import Helmet from "react-helmet"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
@@ -8,6 +9,9 @@ import Politician from "../components/politician"
 
 const IndexPage = () => (
     <Layout>
+        <Helmet>
+            <title>ICE15 - Head Election</title>
+        </Helmet>
         <Center>
             <Container>
                 <Politician />
@@ -76,6 +80,12 @@ const Input = styled.input.attrs({ type: "text" })`
     width: 36px;
     background: #f5f5f5;
     border-radius: 9px;
+
+    font-size: 1.25rem;
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #3d3d3d;
 
     border: none;
     outline: none;
