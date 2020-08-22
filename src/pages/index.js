@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
@@ -6,27 +6,102 @@ import Layout from "../components/layout"
 import Center from "../components/center"
 import Politician from "../components/politician"
 
-const IndexPage = () => (
-    <Layout>
-        <Center>
-            <Container>
-                <Politician />
-                <SubTitle>ICE15</SubTitle>
-                <Title>Head Election</Title>
-                <InputsContainer>
-                    <Input />
-                    <Input />
-                    <Input />
-                    <Dash />
-                    <Input />
-                    <Input />
-                    <Input />
-                </InputsContainer>
-                <Next to="/selection/">Next</Next>
-            </Container>
-        </Center>
-    </Layout>
-)
+const CODE_LENGTH = new Array(6).fill("")
+
+const IndexPage = () => {
+    const [codes, setCodes] = useState(CODE_LENGTH)
+    const focusedInput = useRef(null)
+
+    const handleChange = event => {
+        const codeIndex = parseInt(event.target.name.slice(4, 5), 10)
+        const codeValue = event.target.value
+        const codesClone = [...codes]
+        codesClone[codeIndex] = codeValue
+        setCodes(codesClone)
+
+        if (codeValue) {
+            const nextSibling = document.querySelector(
+                `input[name=ssn-${codeIndex + 1}]`
+            )
+            if (nextSibling) {
+                nextSibling.focus()
+            }
+        }
+
+        if (!codeValue) {
+            const prevSibling = document.querySelector(
+                `input[name=ssn-${codeIndex - 1}]`
+            )
+            if (prevSibling) {
+                prevSibling.focus()
+            }
+        }
+    }
+
+    return (
+        <Layout>
+            <Center>
+                <Container>
+                    <Politician />
+                    <SubTitle>ICE15</SubTitle>
+                    <Title>Head Election</Title>
+                    <InputsContainer>
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-0"
+                            value={codes[0]}
+                            type="text"
+                            maxLength="1"
+                        />
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-1"
+                            value={codes[1]}
+                            type="text"
+                            maxLength="1"
+                        />
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-2"
+                            value={codes[2]}
+                            type="text"
+                            maxLength="1"
+                        />
+                        <Dash />
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-3"
+                            value={codes[3]}
+                            type="text"
+                            maxLength="1"
+                        />
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-4"
+                            value={codes[4]}
+                            type="text"
+                            maxLength="1"
+                        />
+                        <Input
+                            ref={focusedInput}
+                            onChange={handleChange}
+                            name="ssn-5"
+                            value={codes[5]}
+                            type="text"
+                            maxLength="1"
+                        />
+                    </InputsContainer>
+                    <Next to="/selection/">Next</Next>
+                </Container>
+            </Center>
+        </Layout>
+    )
+}
 
 export default IndexPage
 
@@ -59,7 +134,7 @@ const Title = styled.h1`
     color: #3d3d3d;
 `
 
-const InputsContainer = styled.div`
+const InputsContainer = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
