@@ -37,6 +37,11 @@ const Container = styled.div`
 
     height: auto;
     width: auto;
+
+    @media screen and (min-width: 1024px) {
+        position: relative;
+        top: -3%;
+    }
 `
 
 const SubTitle = styled.h2`
@@ -95,7 +100,7 @@ const Next = styled(Link)`
 
     text-decoration: none;
     font-size: 1.125rem;
-    font-weight: 700;
+    font-weight: 600;
     color: white;
 
     border-radius: 14px;
