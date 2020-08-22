@@ -4,12 +4,12 @@ export const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
   }
-  a {
-    text-decoration: none;
-  }
-  ul {
-    margin: 0 auto;
-    list-style-type: none;
+  body * {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
   }
 `
