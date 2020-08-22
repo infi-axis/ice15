@@ -1,76 +1,36 @@
-import React, { useRef, useState, useEffect, useCallback } from "react"
+import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
+import useDigitInput from "react-digit-input"
 
 import Layout from "../components/layout"
 import Center from "../components/center"
 import Politician from "../components/politician"
 import Button from "../components/button"
 
-const CODE_LENGTH = new Array(6).fill("")
-
 const IndexPage = () => {
-    const [codes, setCodes] = useState(CODE_LENGTH)
-    const focus = useRef(0)
-    const codesRef = useRef()
-    const focusedInput = useRef(null)
+    const [value, onChange] = React.useState("")
+    const digits = useDigitInput({
+        acceptedCharacters: /^\w+$/,
+        length: 6,
+        value,
+        onChange,
+    })
 
-    const handleChange = event => {
-        const codeIndex = parseInt(event.target.name.slice(4, 5), 10)
-        const codeValue = event.target.value
-        const codesClone = [...codes]
-        codesClone[codeIndex] = codeValue
-        setCodes(codesClone)
-    }
-
-    const handleFocus = event => {
-        const codeIndex = parseInt(event.target.name.slice(4, 5), 10)
-        focus.current = codeIndex
-    }
-
-    const onKeyDown = ({ key }) => {
-        if (key === "Backspace") {
-            console.log(focus.current)
-            if (focus.current > 0) {
-                if (focus.current === 5 && codesRef.current[5]) {
-                    return
-                }
-                const prevSibling = document.querySelector(
-                    `input[name=ssn-${focus.current - 1}]`
-                )
-                prevSibling.focus()
+    const verifyInput = async () => {
+        console.log(value)
+        const response = await fetch(
+            "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode",
+            {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ couponId: value }), // body data type must match "Content-Type" header
             }
-            return
-        }
-        if (key === "Enter") {
-            // Go to next page
-            return
-        } else {
-            console.log(focus.current)
-            if (focus.current < 5) {
-                if (focus.current === 0 && !codesRef.current[0]) {
-                    return
-                }
-                const nextSibling = document.querySelector(
-                    `input[name=ssn-${focus.current + 1}]`
-                )
-                nextSibling.focus()
-            }
-            return
-        }
+        )
+        response.json().then(res => console.log(res))
     }
-
-    useEffect(() => {
-        codesRef.current = codes
-    }, [codes])
-
-    useEffect(() => {
-        document.addEventListener("keydown", onKeyDown)
-
-        return () => {
-            document.removeEventListener("keydown", onKeyDown)
-        }
-    }, [])
 
     return (
         <Layout>
@@ -80,63 +40,17 @@ const IndexPage = () => {
                     <SubTitle>ICE15</SubTitle>
                     <Title>Head Election</Title>
                     <InputsContainer>
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-0"
-                            value={codes[0]}
-                            type="text"
-                            maxLength="1"
-                        />
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-1"
-                            value={codes[1]}
-                            type="text"
-                            maxLength="1"
-                        />
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-2"
-                            value={codes[2]}
-                            type="text"
-                            maxLength="1"
-                        />
+                        <Input inputMode="decimal" autoFocus {...digits[0]} />
+                        <Input inputMode="decimal" {...digits[1]} />
+                        <Input inputMode="decimal" {...digits[2]} />
                         <Dash />
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-3"
-                            value={codes[3]}
-                            type="text"
-                            maxLength="1"
-                        />
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-4"
-                            value={codes[4]}
-                            type="text"
-                            maxLength="1"
-                        />
-                        <Input
-                            ref={focusedInput}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            name="ssn-5"
-                            value={codes[5]}
-                            type="text"
-                            maxLength="1"
-                        />
+                        <Input inputMode="decimal" {...digits[3]} />
+                        <Input inputMode="decimal" {...digits[4]} />
+                        <Input inputMode="decimal" {...digits[5]} />
                     </InputsContainer>
-                    <Button to="/male">Next</Button>
+                    <Button to="/male" onClick={() => verifyInput()}>
+                        Next
+                    </Button>
                 </Container>
             </Center>
         </Layout>
