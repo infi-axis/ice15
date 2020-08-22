@@ -1,4 +1,5 @@
 import "firebase/firestore"
+import "firebase/functions"
 /**
  * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
  *
