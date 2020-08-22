@@ -12,6 +12,7 @@ const CODE_LENGTH = new Array(6).fill("")
 const IndexPage = () => {
     const [codes, setCodes] = useState(CODE_LENGTH)
     const focus = useRef(0)
+    const codesRef = useRef()
     const focusedInput = useRef(null)
 
     const handleChange = event => {
@@ -31,11 +32,12 @@ const IndexPage = () => {
         if (key === "Backspace") {
             console.log(focus.current)
             if (focus.current > 0) {
-                console.log("YEAH")
+                if (focus.current === 5 && codesRef.current[5]) {
+                    return
+                }
                 const prevSibling = document.querySelector(
                     `input[name=ssn-${focus.current - 1}]`
                 )
-                focus.current = focus.current - 1
                 prevSibling.focus()
             }
             return
@@ -46,16 +48,21 @@ const IndexPage = () => {
         } else {
             console.log(focus.current)
             if (focus.current < 5) {
-                console.log("YO")
+                if (focus.current === 0 && !codesRef.current[0]) {
+                    return
+                }
                 const nextSibling = document.querySelector(
                     `input[name=ssn-${focus.current + 1}]`
                 )
-                focus.current = focus.current + 1
                 nextSibling.focus()
             }
             return
         }
     }
+
+    useEffect(() => {
+        codesRef.current = codes
+    }, [codes])
 
     useEffect(() => {
         document.addEventListener("keydown", onKeyDown)
