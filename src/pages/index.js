@@ -5,6 +5,7 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import Center from "../components/center"
 import Politician from "../components/politician"
+import Button from "../components/button"
 
 const CODE_LENGTH = new Array(6).fill("")
 
@@ -128,7 +129,7 @@ const IndexPage = () => {
                             maxLength="1"
                         />
                     </InputsContainer>
-                    <Next to="/selection/">Next</Next>
+                    <Button to="/male">Next</Button>
                 </Container>
             </Center>
         </Layout>
@@ -199,26 +200,4 @@ const Dash = styled.div`
     width: 12px;
     height: 2px;
     background: #b1b1b1;
-`
-
-const Next = styled(Link)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1.75rem;
-
-    height: 48px;
-    width: 100%;
-    background: #2d74fe;
-
-    text-decoration: none;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: white;
-
-    border-radius: 14px;
-
-    outline: none;
-    border: none;
-    appearance: none;
 `
