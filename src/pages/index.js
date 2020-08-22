@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect, useCallback } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
@@ -10,6 +10,7 @@ const CODE_LENGTH = new Array(6).fill("")
 
 const IndexPage = () => {
     const [codes, setCodes] = useState(CODE_LENGTH)
+    const focus = useRef(0)
     const focusedInput = useRef(null)
 
     const handleChange = event => {
@@ -18,25 +19,50 @@ const IndexPage = () => {
         const codesClone = [...codes]
         codesClone[codeIndex] = codeValue
         setCodes(codesClone)
+    }
 
-        if (codeValue) {
-            const nextSibling = document.querySelector(
-                `input[name=ssn-${codeIndex + 1}]`
-            )
-            if (nextSibling) {
-                nextSibling.focus()
-            }
-        }
+    const handleFocus = event => {
+        const codeIndex = parseInt(event.target.name.slice(4, 5), 10)
+        focus.current = codeIndex
+    }
 
-        if (!codeValue) {
-            const prevSibling = document.querySelector(
-                `input[name=ssn-${codeIndex - 1}]`
-            )
-            if (prevSibling) {
+    const onKeyDown = ({ key }) => {
+        if (key === "Backspace") {
+            console.log(focus.current)
+            if (focus.current > 0) {
+                console.log("YEAH")
+                const prevSibling = document.querySelector(
+                    `input[name=ssn-${focus.current - 1}]`
+                )
+                focus.current = focus.current - 1
                 prevSibling.focus()
             }
+            return
+        }
+        if (key === "Enter") {
+            // Go to next page
+            return
+        } else {
+            console.log(focus.current)
+            if (focus.current < 5) {
+                console.log("YO")
+                const nextSibling = document.querySelector(
+                    `input[name=ssn-${focus.current + 1}]`
+                )
+                focus.current = focus.current + 1
+                nextSibling.focus()
+            }
+            return
         }
     }
+
+    useEffect(() => {
+        document.addEventListener("keydown", onKeyDown)
+
+        return () => {
+            document.removeEventListener("keydown", onKeyDown)
+        }
+    }, [])
 
     return (
         <Layout>
@@ -49,6 +75,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-0"
                             value={codes[0]}
                             type="text"
@@ -57,6 +84,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-1"
                             value={codes[1]}
                             type="text"
@@ -65,6 +93,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-2"
                             value={codes[2]}
                             type="text"
@@ -74,6 +103,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-3"
                             value={codes[3]}
                             type="text"
@@ -82,6 +112,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-4"
                             value={codes[4]}
                             type="text"
@@ -90,6 +121,7 @@ const IndexPage = () => {
                         <Input
                             ref={focusedInput}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             name="ssn-5"
                             value={codes[5]}
                             type="text"
