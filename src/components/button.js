@@ -1,7 +1,6 @@
-import { Link } from "gatsby"
 import styled from "styled-components"
 
-export default styled(Link)`
+export default styled.button`
     display: flex;
     justify-content: center;
     align-items: center;

@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import Center from "../components/center"
 import Politician from "../components/politician"
 import Button from "../components/button"
+import { navigate } from "gatsby"
 
 const IndexPage = () => {
     const [value, onChange] = React.useState("")
@@ -17,6 +18,7 @@ const IndexPage = () => {
     })
 
     const verifyInput = () => {
+        navigate("/male")
         console.log(value)
         fetch("https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -33,6 +35,11 @@ const IndexPage = () => {
             })
     }
 
+    const handleSubmit = event => {
+        event.preventDefault()
+        verifyInput()
+    }
+
     return (
         <Layout>
             <Center>
@@ -40,7 +47,7 @@ const IndexPage = () => {
                     <Politician />
                     <SubTitle>ICE15</SubTitle>
                     <Title>Head Election</Title>
-                    <InputsContainer>
+                    <InputsContainer onSubmit={handleSubmit} id="code">
                         <Input inputMode="decimal" {...digits[0]} />
                         <Input inputMode="decimal" {...digits[1]} />
                         <Input inputMode="decimal" {...digits[2]} />
@@ -49,7 +56,7 @@ const IndexPage = () => {
                         <Input inputMode="decimal" {...digits[4]} />
                         <Input inputMode="decimal" {...digits[5]} />
                     </InputsContainer>
-                    <Button to="/male" onClick={() => verifyInput()}>
+                    <Button type="submit" form="code">
                         Next
                     </Button>
                 </Container>
