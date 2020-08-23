@@ -30,9 +30,9 @@ module.exports = {
             resolve: "gatsby-plugin-firebase",
             options: {
                 credentials: {
-                    apiKey: "AIzaSyCtMXsSj2lHarigRhy7jIPcIQKQ2JxBmis",
-                    authDomain: "ice15-e33ad.firebaseapp.com",
-                    databaseURL: "https://ice15-e33ad.firebaseio.com",
+                    apiKey: "",
+                    authDomain: "",
+                    databaseURL: "",
                     projectId: "ice15-e33ad",
                     storageBucket: "ice15-e33ad.appspot.com",
                     messagingSenderId: "531109842552",
