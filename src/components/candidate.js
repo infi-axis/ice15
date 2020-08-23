@@ -9,8 +9,10 @@ const Candidate = ({ name, subname, onClick }) => {
         <Container onClick={onClick}>
             <ProfileImages name={name} />
             <InfoContainer>
-                <Name>{name}</Name>
-                <SubName>{subname}</SubName>
+                <Baseline>
+                    <Name>{name}</Name>
+                    <SubName>{subname}</SubName>
+                </Baseline>
             </InfoContainer>
         </Container>
     )
@@ -45,15 +47,23 @@ const Container = styled(motion.div).attrs({
 
 const InfoContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-flow: row;
+    align-items: center;
 
     height: 3rem;
     width: 100%;
 
-    padding: 0.75rem 1rem;
     border-radius: 0 0 14px 14px;
     background: #fff;
+`
+
+const Baseline = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
 `
 
 const Name = styled.span`
@@ -64,5 +74,5 @@ const Name = styled.span`
 
 const SubName = styled(Name)`
     font-weight: 400;
-    color: #adadad;
+    color: #b9b9b9;
 `

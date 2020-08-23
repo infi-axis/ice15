@@ -96,7 +96,9 @@ const IndexPage = () => {
                     />
                 ))}
             </InputsContainer>
-            <Button onClick={onClick}>{loading ? <Wave /> : "Next"}</Button>
+            <Button onClick={onClick}>
+                {loading ? <Wave color="white" /> : "Next"}
+            </Button>
         </Container>
     )
 }

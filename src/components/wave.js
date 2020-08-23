@@ -61,7 +61,7 @@ const Circle = styled(motion.span)`
     display: block;
     width: 0.5rem;
     height: 0.5rem;
-    background: ${props => props.color || "whtie"};
+    background: ${props => props.color};
     border-radius: 50%;
 
     &:not(:first-child) {
