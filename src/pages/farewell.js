@@ -9,8 +9,7 @@ const FarewellPage = () => {
             <ThankYou />
             <Title>Thank You!</Title>
             <Paragraph>
-                Your vote have been submitted. The result will come out in a few
-                days.
+                Your vote have been submitted. The result will come out tonight.
             </Paragraph>
         </Container>
     )
