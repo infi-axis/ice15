@@ -1,52 +1,36 @@
 import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
+import axios from "axios"
 import { navigate } from "gatsby"
 
 import Candidate from "../components/candidate"
-import Button from "../components/button"
-import axios from "axios"
+
+const url = "https://us-central1-ice15-e33ad.cloudfunctions.net/vote"
+const options = { headers: { "Content-Type": "application/json" } }
 
 const SelectionPage = () => {
-    const [selection, setSelection] = useState("XXXXXX")
     const [code, setCode] = useState("")
 
-    const handleSubmit = event => {
-        event.preventDefault()
-        verifyInput()
+    const onClick = id => {
+        localStorage.setItem("female", id)
+        submitVote()
     }
 
-    const verifyInput = () => {
-        if (!selection) {
-            alert("Select a candidate")
-        } else {
-            localStorage.setItem("female", selection)
-            submitVote()
+    const submitVote = async () => {
+        try {
+            const body = {
+                couponId: localStorage.getItem("couponId"),
+                male: localStorage.getItem("male"),
+                female: localStorage.getItem("female"),
+            }
+
+            const res = await axios.post(url, body, options)
+            if (res.status === 200) {
+                navigate("/farewell")
+            }
+        } catch (e) {
+            console.log(e)
         }
-    }
-
-    const submitVote = () => {
-        axios
-            .post(
-                "https://us-central1-ice15-e33ad.cloudfunctions.net/vote",
-                {
-                    couponId: localStorage.getItem("couponId"),
-                    male: localStorage.getItem("male"),
-                    female: localStorage.getItem("female"),
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then(res => {
-                if (res.status === 200) {
-                    navigate("/farewell")
-                }
-            })
-            .catch(err => {
-                alert(err.response?.data || err.message)
-            })
     }
 
     useLayoutEffect(() => {
@@ -54,7 +38,6 @@ const SelectionPage = () => {
             navigate("/", { replace: true })
         } else if (!localStorage.getItem("male")) {
             navigate("/male", { replace: true })
-            alert("Select male candidate first")
         } else {
             setCode(localStorage.getItem("couponId"))
         }
@@ -66,29 +49,23 @@ const SelectionPage = () => {
             <Title>
                 {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
             </Title>
-            <CandidatesContainer onSubmit={handleSubmit} id="female">
+            <CandidatesContainer>
                 <Candidate
                     name="Poraor"
                     subname="ปอ-ออ"
-                    selected={selection === 1}
-                    onClick={() => setSelection(1)}
+                    onClick={() => onClick(1)}
                 />
                 <Candidate
                     name="Looknam"
                     subname="ลูกนํ้า"
-                    selected={selection === 2}
-                    onClick={() => setSelection(2)}
+                    onClick={() => onClick(2)}
                 />
                 <Candidate
                     name="Chaba"
                     subname="ชบา"
-                    selected={selection === 3}
-                    onClick={() => setSelection(3)}
+                    onClick={() => onClick(3)}
                 />
             </CandidatesContainer>
-            <Button type="submit" form="female">
-                Vote now!
-            </Button>
         </Container>
     )
 }
@@ -136,7 +113,7 @@ const Dash = styled.div`
     margin: 0 0.25rem;
 `
 
-const CandidatesContainer = styled.form`
+const CandidatesContainer = styled.div`
     margin-top: 1.25rem;
     display: grid;
     grid-template-columns: 1fr 1fr;

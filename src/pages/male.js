@@ -2,25 +2,14 @@ import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
 
 import Candidate from "../components/candidate"
-import Button from "../components/button"
 import { navigate } from "gatsby"
 
-const candidates = ["", "Guide", "Boon", "Patton", "Punn"]
-
 const SelectionPage = () => {
-    const [selection, setSelection] = useState("")
     const [code, setCode] = useState("")
 
-    const handleSubmit = event => {
-        event.preventDefault()
-        verifyInput()
-    }
-
-    const verifyInput = () => {
-        if (selection) {
-            localStorage.setItem("male", selection)
-            navigate("/female")
-        }
+    const onClick = id => {
+        localStorage.setItem("male", id)
+        navigate("/female")
     }
 
     useLayoutEffect(() => {
@@ -37,35 +26,28 @@ const SelectionPage = () => {
             <Title>
                 {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
             </Title>
-            <CandidatesContainer onSubmit={handleSubmit} id="male">
+            <CandidatesContainer>
                 <Candidate
                     name="Guide"
                     subname="ไกด์"
-                    selected={selection === 1}
-                    onClick={() => setSelection(1)}
+                    onClick={() => onClick(1)}
                 />
                 <Candidate
                     name="Boon"
                     subname="บุ๋น"
-                    selected={selection === 2}
-                    onClick={() => setSelection(2)}
+                    onClick={() => onClick(2)}
                 />
                 <Candidate
                     name="Patton"
                     subname="แพตตั้น"
-                    selected={selection === 3}
-                    onClick={() => setSelection(3)}
+                    onClick={() => onClick(3)}
                 />
                 <Candidate
                     name="Punn"
                     subname="ปัน"
-                    selected={selection === 4}
-                    onClick={() => setSelection(4)}
+                    onClick={() => onClick(4)}
                 />
             </CandidatesContainer>
-            <SubmitButton type="submit" form="male">
-                Vote <Highlight>{candidates[selection]}</Highlight>!
-            </SubmitButton>
         </Container>
     )
 }
@@ -113,20 +95,10 @@ const Dash = styled.div`
     margin: 0 0.25rem;
 `
 
-const CandidatesContainer = styled.form`
+const CandidatesContainer = styled.div`
     margin-top: 1.25rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-gap: 1.25rem;
-`
-
-const SubmitButton = styled(Button)`
-    font-weight: 400;
-`
-
-const Highlight = styled.span`
-    display: inline-block;
-    font-weight: 700;
-    margin-left: 0.25rem;
 `

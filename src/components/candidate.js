@@ -1,15 +1,16 @@
 import React from "react"
 import styled from "styled-components"
+import { motion } from "framer-motion"
 
 import Profiles from "./profiles"
 
-const Candidate = ({ name, subname, onClick, selected }) => {
+const Candidate = ({ name, subname, onClick }) => {
     return (
         <Container onClick={onClick}>
             <ProfileImages name={name} />
-            <InfoContainer isSelected={selected}>
-                <Name isSelected={selected}>{name}</Name>
-                <SubName isSelected={selected}>{subname}</SubName>
+            <InfoContainer>
+                <Name>{name}</Name>
+                <SubName>{subname}</SubName>
             </InfoContainer>
         </Container>
     )
@@ -22,9 +23,24 @@ const ProfileImages = styled(Profiles)`
     border-radius: 14px 14px 0 0;
 `
 
-const Container = styled.div`
+const Container = styled(motion.div).attrs({
+    transition: {
+        duration: 0.2,
+    },
+    whileHover: {
+        scaleY: 1.04,
+        scaleX: 1.06,
+    },
+    whileTap: {
+        scaleY: 0.96,
+        scaleX: 0.94,
+    },
+})`
     border-radius: 14px;
     width: 140px;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.025), 0 4px 8px rgba(0, 0, 0, 0.032),
+        0 8px 16px rgba(0, 0, 0, 0.032);
 `
 
 const InfoContainer = styled.div`
@@ -37,7 +53,7 @@ const InfoContainer = styled.div`
 
     padding: 0.75rem 1rem;
     border-radius: 0 0 14px 14px;
-    background: #f5f5f5;
+    background: #fff;
 `
 
 const Name = styled.span`
