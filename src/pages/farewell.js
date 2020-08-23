@@ -14,13 +14,13 @@ const FarewellPage = () => {
             </Paragraph>
             <AttributionTitle>Authors of This Website</AttributionTitle>
             <AttributionsContainer>
-                <Attribution href="https://github.com/Winnaries">
+                <Attribution href="https://instagram.com/winnaries/">
                     @winnaries
                 </Attribution>
-                <Attribution href="https://github.com/wasurocks">
+                <Attribution href="https://instagram.com/wasu.s_/">
                     @wasurocks
                 </Attribution>
-                <Attribution href="https://github.com/BossWT">
+                <Attribution href="https://instagram.com/boss_wt">
                     @bosswt
                 </Attribution>
             </AttributionsContainer>
