@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
@@ -11,7 +11,7 @@ const candidates = ["", "Guide", "Boon", "Patton", "Punn"]
 
 const SelectionPage = () => {
     const [selection, setSelection] = useState("")
-    const [code] = useState(localStorage.getItem("couponId"))
+    const [code, setCode] = useState("")
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -25,9 +25,11 @@ const SelectionPage = () => {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!localStorage.getItem("couponId")) {
             navigate("/", { replace: true })
+        } else {
+            setCode(localStorage.getItem("couponId"))
         }
     }, [])
 

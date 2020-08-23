@@ -86,7 +86,7 @@ const IndexPage = () => {
                             <Input
                                 key={index}
                                 variants={inputVariants}
-                                inputMode="decimal"
+                                inputMode="text"
                                 {...digit}
                             />
                         ))}
@@ -95,7 +95,7 @@ const IndexPage = () => {
                             <Input
                                 key={index + 3}
                                 variants={inputVariants}
-                                inputMode="decimal"
+                                inputMode="text"
                                 {...digit}
                             />
                         ))}

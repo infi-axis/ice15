@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
 import { navigate } from "gatsby"
 
@@ -9,8 +9,8 @@ import Button from "../components/button"
 import axios from "axios"
 
 const SelectionPage = () => {
-    const [selection, setSelection] = useState("")
-    const [code] = useState(localStorage.getItem("couponId"))
+    const [selection, setSelection] = useState("XXXXXX")
+    const [code, setCode] = useState("")
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -51,12 +51,14 @@ const SelectionPage = () => {
             })
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!localStorage.getItem("couponId")) {
             navigate("/", { replace: true })
         } else if (!localStorage.getItem("male")) {
             navigate("/male", { replace: true })
             alert("Select male candidate first")
+        } else {
+            setCode(localStorage.getItem("couponId"))
         }
     }, [])
 
