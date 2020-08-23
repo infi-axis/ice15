@@ -7,6 +7,7 @@ import Center from "../components/center"
 import Politician from "../components/politician"
 import Button from "../components/button"
 import { navigate } from "gatsby"
+import axios from "axios"
 
 const IndexPage = () => {
     const [value, onChange] = React.useState("")
@@ -18,20 +19,25 @@ const IndexPage = () => {
     })
 
     const verifyInput = () => {
-        navigate("/male")
-        console.log(value)
-        fetch("https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ couponId: value }), // body data type must match "Content-Type" header
-        })
-            .then(data => {
-                console.log("Success:", data)
+        axios
+            .post(
+                "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode",
+                {
+                    couponId: value,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then(res => {
+                if (res.status === 200) {
+                    navigate("/male")
+                }
             })
-            .catch(error => {
-                console.error("Error:", error)
+            .catch(err => {
+                alert(err.response.data)
             })
     }
 

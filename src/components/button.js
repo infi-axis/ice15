@@ -20,4 +20,5 @@ export default styled.button`
     outline: none;
     border: none;
     appearance: none;
+    cursor: pointer;
 `
