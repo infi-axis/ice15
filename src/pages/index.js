@@ -17,19 +17,21 @@ const IndexPage = () => {
         onChange,
     })
 
-    const verifyInput = async () => {
+    const verifyInput = () => {
         console.log(value)
-        const response = await fetch(
-            "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode",
-            {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ couponId: value }), // body data type must match "Content-Type" header
-            }
-        )
-        response.json().then(res => console.log(res))
+        fetch("https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ couponId: value }), // body data type must match "Content-Type" header
+        })
+            .then(data => {
+                console.log("Success:", data)
+            })
+            .catch(error => {
+                console.error("Error:", error)
+            })
     }
 
     return (
