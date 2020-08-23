@@ -3,9 +3,9 @@ import styled from "styled-components"
 
 import Profiles from "./profiles"
 
-const Candidate = ({ name, subname }) => {
+const Candidate = ({ name, subname, onClick }) => {
     return (
-        <Container>
+        <Container onClick={() => onClick(name)}>
             <ProfileImages name={name} />
             <InfoContainer>
                 <Name>{name}</Name>

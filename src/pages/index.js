@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import useDigitInput from "react-digit-input"
 
@@ -33,6 +33,7 @@ const IndexPage = () => {
             )
             .then(res => {
                 if (res.status === 200) {
+                    localStorage.setItem("couponId", value)
                     navigate("/male")
                 }
             })
@@ -45,6 +46,10 @@ const IndexPage = () => {
         event.preventDefault()
         verifyInput()
     }
+
+    useEffect(() => {
+        localStorage.clear()
+    }, [])
 
     return (
         <Layout>

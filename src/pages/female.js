@@ -1,30 +1,78 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
 import Center from "../components/center"
 import Candidate from "../components/candidate"
 import Button from "../components/button"
+import { navigate } from "gatsby"
 
 const SelectionPage = () => {
-    return (
+    const [selection, setSelection] = useState("")
+    const [load, setLoad] = useState(false)
+    const [code] = useState(localStorage.getItem("couponId"))
+
+    const handleSelect = name => {
+        setSelection(name)
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault()
+        verifyInput()
+    }
+
+    const verifyInput = () => {
+        if (!selection) {
+            alert("Select a candidate")
+        } else {
+            localStorage.setItem("female", selection)
+            navigate("/farewell")
+        }
+    }
+
+    useEffect(() => {
+        if (!localStorage.getItem("couponId")) {
+            navigate("/", { replace: true })
+        } else if (!localStorage.getItem("male")) {
+            navigate("/male", { replace: true })
+            alert("Select male candidate first")
+        } else {
+            setLoad(true)
+        }
+    }, [])
+
+    return load ? (
         <Layout>
             <Center>
                 <Container>
                     <SubTitle>Your Code</SubTitle>
                     <Title>
-                        DKU <Dash /> 4OP
+                        {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
                     </Title>
-                    <CandidatesContainer>
-                        <Candidate name="Poraor" subname="ปอ-ออ" />
-                        <Candidate name="Looknam" subname="ลูกนํ้า" />
-                        <Candidate name="Chaba" subname="ชบา" />
+                    <CandidatesContainer onSubmit={handleSubmit} id="female">
+                        <Candidate
+                            name="Poraor"
+                            subname="ปอ-ออ"
+                            onClick={handleSelect}
+                        />
+                        <Candidate
+                            name="Looknam"
+                            subname="ลูกนํ้า"
+                            onClick={handleSelect}
+                        />
+                        <Candidate
+                            name="Chaba"
+                            subname="ชบา"
+                            onClick={handleSelect}
+                        />
                     </CandidatesContainer>
-                    <Button to="/farewell">Vote now!</Button>
+                    <Button type="submit" form="female">
+                        Vote now!
+                    </Button>
                 </Container>
             </Center>
         </Layout>
-    )
+    ) : null
 }
 
 export default SelectionPage
