@@ -1,8 +1,8 @@
 import React from "react"
-import Helmet from "react-helmet"
 import styled from "styled-components"
 import { motion, AnimatePresence } from "framer-motion"
 
+import SEO from "./seo"
 import GlobalStyle from "../theme/globalStyle"
 
 const variants = {
@@ -29,13 +29,12 @@ const transition = {
 const Layout = ({ children, location }) => {
     return (
         <>
-            <Helmet>
-                <title>ICE15 - Head Election</title>
+            <SEO>
                 <style>
                     @import
                     url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
                 </style>
-            </Helmet>
+            </SEO>
             <GlobalStyle />
             <Container>
                 <AnimatePresence>

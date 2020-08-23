@@ -1,6 +1,6 @@
 module.exports = {
     siteMetadata: {
-        title: `ICE 15 Head Election`,
+        title: `ICE15 | Head Election`,
         description: `Head selection webapp for ICE 15 students `,
         author: `@winnaries @bosswt @wasurocks`,
     },

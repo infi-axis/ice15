@@ -40,6 +40,7 @@ const Container = styled(motion.div).attrs({
 })`
     border-radius: 14px;
     width: 140px;
+    cursor: pointer;
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.025), 0 4px 8px rgba(0, 0, 0, 0.032),
         0 8px 16px rgba(0, 0, 0, 0.032);
