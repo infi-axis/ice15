@@ -51,24 +51,28 @@ const SelectionPage = () => {
                             name="Guide"
                             cid="1"
                             subname="ไกด์"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Boon"
                             cid="2"
                             subname="บุ๋น"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Patton"
                             cid="3"
                             subname="แพตตั้น"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Punn"
                             cid="4"
                             subname="ปัน"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                     </CandidatesContainer>

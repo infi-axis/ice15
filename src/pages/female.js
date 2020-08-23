@@ -86,18 +86,21 @@ const SelectionPage = () => {
                             name="Poraor"
                             cid="1"
                             subname="ปอ-ออ"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Looknam"
                             cid="2"
                             subname="ลูกนํ้า"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Chaba"
                             cid="3"
                             subname="ชบา"
+                            selected={selection}
                             onClick={handleSelect}
                         />
                     </CandidatesContainer>

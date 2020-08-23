@@ -3,13 +3,15 @@ import styled from "styled-components"
 
 import Profiles from "./profiles"
 
-const Candidate = ({ name, subname, onClick, cid }) => {
+const Candidate = ({ name, subname, onClick, cid, selected }) => {
+    const isSelected = selected === cid
+
     return (
         <Container onClick={() => onClick(cid)}>
             <ProfileImages name={name} />
-            <InfoContainer>
-                <Name>{name}</Name>
-                <SubName>{subname}</SubName>
+            <InfoContainer isSelected={isSelected}>
+                <Name isSelected={isSelected}>{name}</Name>
+                <SubName isSelected={isSelected}>{subname}</SubName>
             </InfoContainer>
         </Container>
     )
@@ -38,16 +40,16 @@ const InfoContainer = styled.div`
 
     padding: 0.75rem 1rem;
     border-radius: 0 0 14px 14px;
-    background: #f5f5f5;
+    background: ${props => (props.isSelected ? "#2d74fe" : "#f5f5f5")};
 `
 
 const Name = styled.span`
     font-size: 18px;
     font-weight: 600;
-    color: #3d3d3d;
+    color: ${props => (props.isSelected ? "#f5f5f5" : "#3d3d3d")};
 `
 
 const SubName = styled(Name)`
-    color: #adadad;
     font-weight: 400;
+    color: ${props => (props.isSelected ? "#e0e0e0" : "#adadad")};
 `
