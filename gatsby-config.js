@@ -18,12 +18,10 @@ module.exports = {
         {
             resolve: `gatsby-plugin-manifest`,
             options: {
-                name: `gatsby-starter-default`,
-                short_name: `starter`,
+                name: `ICE15 Election Webapp`,
+                short_name: `Election`,
                 start_url: `/`,
-                background_color: `#663399`,
-                theme_color: `#663399`,
-                display: `minimal-ui`,
+                icon: "src/images/politician.png",
             },
         },
         {

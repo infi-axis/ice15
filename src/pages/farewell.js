@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { motion } from "framer-motion"
 
 import ThankYou from "../components/thankyou"
 
@@ -11,6 +12,24 @@ const FarewellPage = () => {
             <Paragraph>
                 Your vote have been submitted. The result will come out tonight.
             </Paragraph>
+            <AttributionTitle>Authors of This Website</AttributionTitle>
+            <AttributionsContainer>
+                <Attribution href="https://github.com/Winnaries">
+                    @winnaries
+                </Attribution>
+                <Attribution href="https://github.com/wasurocks">
+                    @wasurocks
+                </Attribution>
+                <Attribution href="https://github.com/BossWT">
+                    @bosswt
+                </Attribution>
+            </AttributionsContainer>
+            <AttributionTitle>Special Thanks</AttributionTitle>
+            <AttributionsContainer>
+                <Attribution href="https://www.instagram.com/staanpat">
+                    @staanpat
+                </Attribution>
+            </AttributionsContainer>
         </Container>
     )
 }
@@ -45,4 +64,37 @@ const Paragraph = styled.p`
     font-size: 16px;
     color: #838383;
     text-align: center;
+`
+
+const Attribution = styled(motion.a).attrs({
+    whileHover: {
+        y: -4,
+    },
+    whileTap: {
+        y: -2,
+    },
+})`
+    display: inline-block;
+    font-weight: 600;
+    color: #1c9fff;
+
+    text-decoration: none;
+    border: none;
+    outline: none;
+    appearance: none;
+
+    &:not(:first-child) {
+        margin-left: 0.5rem;
+    }
+`
+
+const AttributionTitle = styled.h2`
+    font-size: 16px;
+    font-weight: 600;
+    color: hsl(0, 0%, 85%);
+    margin-top: 2rem;
+`
+
+const AttributionsContainer = styled(motion.div)`
+    margin-top: 0.375rem;
 `
