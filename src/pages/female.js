@@ -6,14 +6,15 @@ import Center from "../components/center"
 import Candidate from "../components/candidate"
 import Button from "../components/button"
 import { navigate } from "gatsby"
+import axios from "axios"
 
 const SelectionPage = () => {
     const [selection, setSelection] = useState("")
     const [load, setLoad] = useState(false)
     const [code] = useState(localStorage.getItem("couponId"))
 
-    const handleSelect = name => {
-        setSelection(name)
+    const handleSelect = cid => {
+        setSelection(cid)
     }
 
     const handleSubmit = event => {
@@ -26,8 +27,39 @@ const SelectionPage = () => {
             alert("Select a candidate")
         } else {
             localStorage.setItem("female", selection)
-            navigate("/farewell")
+            submitVote()
         }
+    }
+
+    const submitVote = () => {
+        console.log({
+            couponId: localStorage.getItem("couponId"),
+            male: localStorage.getItem("male"),
+            female: localStorage.getItem("female"),
+        })
+
+        axios
+            .post(
+                "https://us-central1-ice15-e33ad.cloudfunctions.net/vote",
+                {
+                    couponId: localStorage.getItem("couponId"),
+                    male: localStorage.getItem("male"),
+                    female: localStorage.getItem("female"),
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then(res => {
+                if (res.status === 200) {
+                    navigate("/farewell")
+                }
+            })
+            .catch(err => {
+                alert(err.response?.data || err.message)
+            })
     }
 
     useEffect(() => {
@@ -52,16 +84,19 @@ const SelectionPage = () => {
                     <CandidatesContainer onSubmit={handleSubmit} id="female">
                         <Candidate
                             name="Poraor"
+                            cid="1"
                             subname="ปอ-ออ"
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Looknam"
+                            cid="2"
                             subname="ลูกนํ้า"
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Chaba"
+                            cid="3"
                             subname="ชบา"
                             onClick={handleSelect}
                         />
@@ -118,7 +153,7 @@ const Dash = styled.div`
     margin: 0 0.25rem;
 `
 
-const CandidatesContainer = styled.div`
+const CandidatesContainer = styled.form`
     margin-top: 1.25rem;
     display: grid;
     grid-template-columns: 1fr 1fr;

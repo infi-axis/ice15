@@ -12,8 +12,8 @@ const SelectionPage = () => {
     const [load, setLoad] = useState(false)
     const [code] = useState(localStorage.getItem("couponId"))
 
-    const handleSelect = name => {
-        setSelection(name)
+    const handleSelect = cid => {
+        setSelection(cid)
     }
 
     const handleSubmit = event => {
@@ -49,21 +49,25 @@ const SelectionPage = () => {
                     <CandidatesContainer onSubmit={handleSubmit} id="male">
                         <Candidate
                             name="Guide"
+                            cid="1"
                             subname="ไกด์"
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Boon"
+                            cid="2"
                             subname="บุ๋น"
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Patton"
+                            cid="3"
                             subname="แพตตั้น"
                             onClick={handleSelect}
                         />
                         <Candidate
                             name="Punn"
+                            cid="4"
                             subname="ปัน"
                             onClick={handleSelect}
                         />
