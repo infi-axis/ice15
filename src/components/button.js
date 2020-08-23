@@ -1,6 +1,11 @@
 import styled from "styled-components"
+import { motion } from "framer-motion"
 
-export default styled.button`
+export default styled(motion.button).attrs({
+    whileHover: { scaleX: 1.04, scaleY: 1.07 },
+    whileTap: { scaleX: 0.96, scaleY: 0.93, opacity: 0.6 },
+    transition: { duration: 0.2 },
+})`
     display: flex;
     justify-content: center;
     align-items: center;

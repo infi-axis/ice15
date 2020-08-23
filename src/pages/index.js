@@ -14,17 +14,15 @@ import Wave from "../components/wave"
 const url = "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode"
 const options = { headers: { "Content-Type": "application/json" } }
 
-const containerVariants = {
-    normal: {},
-    invalid: {},
-}
-
 const inputVariants = {
     normal: {
         border: "2px solid hsl(349, 92%, 54%, 0)",
     },
     invalid: {
         border: "2px solid hsl(349, 92%, 54%, 1)",
+        transition: {
+            duration: 0.3,
+        },
     },
 }
 
@@ -35,7 +33,7 @@ const IndexPage = () => {
 
     const onChange = useCallback(
         value => {
-            setCouponId(value)
+            setCouponId(value.toUpperCase())
             if (invalid) {
                 setInvalid(false)
             }
@@ -51,6 +49,10 @@ const IndexPage = () => {
     })
 
     const onClick = async () => {
+        if (loading) {
+            return
+        }
+
         try {
             setLoading(true)
             const body = { couponId }
@@ -77,9 +79,8 @@ const IndexPage = () => {
                     <SubTitle>ICE15</SubTitle>
                     <Title>Head Election</Title>
                     <InputsContainer
-                        animate={invalid ? "invalid" : "normal"}
                         initial="normal"
-                        variants={containerVariants}
+                        animate={invalid ? "invalid" : "normal"}
                     >
                         {digits.slice(0, 3).map((digit, index) => (
                             <Input
