@@ -55,35 +55,41 @@ exports.verifyCode = functions.https.onRequest((req, res) => {
 })
 
 exports.vote = functions.https.onRequest((req, res) => {
-    const { couponId, male, female } = req.body
-    const couponRef = admin.firestore().collection("coupons").doc(couponId)
-    couponRef
-        .get()
-        .then(couponDoc => {
-            if (couponDoc.exists) {
-                const coupon = couponDoc.data()
-                if (coupon.isUsed)
-                    return res.status(404).send("Already redeemed")
-                const maleRef = admin
-                    .firestore()
-                    .collection("m-candidates")
-                    .doc(male)
-                const femaleRef = admin
-                    .firestore()
-                    .collection("f-candidates")
-                    .doc(female)
-                maleRef.update({
-                    votes: admin.firestore.FieldValue.increment(1),
-                })
-                femaleRef.update({
-                    votes: admin.firestore.FieldValue.increment(1),
-                })
-                couponRef.update({ isUsed: true })
-                return res.status(200).send("Success")
-            }
-            return res.status(404).send("Invalid coupon")
-        })
-        .catch(err => res.status(500).send(err.message))
+    res.set("Access-Control-Allow-Origin", "*")
+    res.set("Access-Control-Allow-Methods", "GET, POST")
+    res.set("Access-Control-Allow-Headers", "Content-Type")
+    res.setHeader("Content-Type", "application/json")
+    if (req.method === "POST") {
+        const { couponId, male, female } = req.body
+        const couponRef = admin.firestore().collection("coupons").doc(couponId)
+        couponRef
+            .get()
+            .then(couponDoc => {
+                if (couponDoc.exists) {
+                    const coupon = couponDoc.data()
+                    if (coupon.isUsed)
+                        return res.status(404).send("Already redeemed")
+                    const maleRef = admin
+                        .firestore()
+                        .collection("m-candidates")
+                        .doc(male)
+                    const femaleRef = admin
+                        .firestore()
+                        .collection("f-candidates")
+                        .doc(female)
+                    maleRef.update({
+                        votes: admin.firestore.FieldValue.increment(1),
+                    })
+                    femaleRef.update({
+                        votes: admin.firestore.FieldValue.increment(1),
+                    })
+                    couponRef.update({ isUsed: true })
+                    return res.status(200).send("Success")
+                }
+                return res.status(404).send("Invalid coupon")
+            })
+            .catch(err => res.status(500).send(err.message))
+    } else return res.send(":P")
 })
 
 exports.result = functions.https.onRequest((req, res) => {
