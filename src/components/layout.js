@@ -1,8 +1,32 @@
 import React from "react"
 import Helmet from "react-helmet"
-import { GlobalStyle } from "../theme/globalStyle"
+import styled from "styled-components"
+import { motion, AnimatePresence } from "framer-motion"
 
-const Layout = ({ children }) => {
+import GlobalStyle from "../theme/globalStyle"
+
+const variants = {
+    initial: {
+        translateY: "100vh",
+        opacity: 0,
+    },
+    enter: {
+        translateY: 0,
+        opacity: 1,
+    },
+    exit: {
+        translateY: "-100vh",
+        opacity: 0,
+    },
+}
+
+const transition = {
+    type: "spring",
+    duration: 0.12,
+    damping: 13,
+}
+
+const Layout = ({ children, location }) => {
     return (
         <>
             <Helmet>
@@ -13,9 +37,37 @@ const Layout = ({ children }) => {
                 </style>
             </Helmet>
             <GlobalStyle />
-            {children}
+            <Container>
+                <AnimatePresence>
+                    <Center
+                        key={location.pathname}
+                        variants={variants}
+                        transition={transition}
+                        initial="initial"
+                        animate="enter"
+                        exit="exit"
+                    >
+                        {children}
+                    </Center>
+                </AnimatePresence>
+            </Container>
         </>
     )
 }
 
 export default Layout
+
+const Container = styled.div`
+    position: relative;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+`
+
+const Center = styled(motion.div)`
+    position: absolute;
+`

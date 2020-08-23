@@ -5,8 +5,6 @@ import axios from "axios"
 import { motion } from "framer-motion"
 import { navigate } from "gatsby"
 
-import Layout from "../components/layout"
-import Center from "../components/center"
 import Politician from "../components/politician"
 import Button from "../components/button"
 import Wave from "../components/wave"
@@ -72,40 +70,34 @@ const IndexPage = () => {
     }, [])
 
     return (
-        <Layout>
-            <Center>
-                <Container>
-                    <Politician />
-                    <SubTitle>ICE15</SubTitle>
-                    <Title>Head Election</Title>
-                    <InputsContainer
-                        initial="normal"
-                        animate={invalid ? "invalid" : "normal"}
-                    >
-                        {digits.slice(0, 3).map((digit, index) => (
-                            <Input
-                                key={index}
-                                variants={inputVariants}
-                                inputMode="text"
-                                {...digit}
-                            />
-                        ))}
-                        <Dash />
-                        {digits.slice(3, 6).map((digit, index) => (
-                            <Input
-                                key={index + 3}
-                                variants={inputVariants}
-                                inputMode="text"
-                                {...digit}
-                            />
-                        ))}
-                    </InputsContainer>
-                    <Button onClick={onClick}>
-                        {loading ? <Wave /> : "Next"}
-                    </Button>
-                </Container>
-            </Center>
-        </Layout>
+        <Container>
+            <Politician />
+            <SubTitle>ICE15</SubTitle>
+            <Title>Head Election</Title>
+            <InputsContainer
+                initial="normal"
+                animate={invalid ? "invalid" : "normal"}
+            >
+                {digits.slice(0, 3).map((digit, index) => (
+                    <Input
+                        key={index}
+                        variants={inputVariants}
+                        inputMode="text"
+                        {...digit}
+                    />
+                ))}
+                <Dash />
+                {digits.slice(3, 6).map((digit, index) => (
+                    <Input
+                        key={index + 3}
+                        variants={inputVariants}
+                        inputMode="text"
+                        {...digit}
+                    />
+                ))}
+            </InputsContainer>
+            <Button onClick={onClick}>{loading ? <Wave /> : "Next"}</Button>
+        </Container>
     )
 }
 

@@ -1,8 +1,6 @@
 import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
 
-import Layout from "../components/layout"
-import Center from "../components/center"
 import Candidate from "../components/candidate"
 import Button from "../components/button"
 import { navigate } from "gatsby"
@@ -34,45 +32,41 @@ const SelectionPage = () => {
     }, [])
 
     return (
-        <Layout>
-            <Center>
-                <Container>
-                    <SubTitle>Your Code</SubTitle>
-                    <Title>
-                        {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
-                    </Title>
-                    <CandidatesContainer onSubmit={handleSubmit} id="male">
-                        <Candidate
-                            name="Guide"
-                            subname="ไกด์"
-                            selected={selection === 1}
-                            onClick={() => setSelection(1)}
-                        />
-                        <Candidate
-                            name="Boon"
-                            subname="บุ๋น"
-                            selected={selection === 2}
-                            onClick={() => setSelection(2)}
-                        />
-                        <Candidate
-                            name="Patton"
-                            subname="แพตตั้น"
-                            selected={selection === 3}
-                            onClick={() => setSelection(3)}
-                        />
-                        <Candidate
-                            name="Punn"
-                            subname="ปัน"
-                            selected={selection === 4}
-                            onClick={() => setSelection(4)}
-                        />
-                    </CandidatesContainer>
-                    <SubmitButton type="submit" form="male">
-                        Vote <Highlight>{candidates[selection]}</Highlight>!
-                    </SubmitButton>
-                </Container>
-            </Center>
-        </Layout>
+        <Container>
+            <SubTitle>Your Code</SubTitle>
+            <Title>
+                {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
+            </Title>
+            <CandidatesContainer onSubmit={handleSubmit} id="male">
+                <Candidate
+                    name="Guide"
+                    subname="ไกด์"
+                    selected={selection === 1}
+                    onClick={() => setSelection(1)}
+                />
+                <Candidate
+                    name="Boon"
+                    subname="บุ๋น"
+                    selected={selection === 2}
+                    onClick={() => setSelection(2)}
+                />
+                <Candidate
+                    name="Patton"
+                    subname="แพตตั้น"
+                    selected={selection === 3}
+                    onClick={() => setSelection(3)}
+                />
+                <Candidate
+                    name="Punn"
+                    subname="ปัน"
+                    selected={selection === 4}
+                    onClick={() => setSelection(4)}
+                />
+            </CandidatesContainer>
+            <SubmitButton type="submit" form="male">
+                Vote <Highlight>{candidates[selection]}</Highlight>!
+            </SubmitButton>
+        </Container>
     )
 }
 

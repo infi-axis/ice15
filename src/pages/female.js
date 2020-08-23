@@ -2,8 +2,6 @@ import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
 import { navigate } from "gatsby"
 
-import Layout from "../components/layout"
-import Center from "../components/center"
 import Candidate from "../components/candidate"
 import Button from "../components/button"
 import axios from "axios"
@@ -63,39 +61,35 @@ const SelectionPage = () => {
     }, [])
 
     return (
-        <Layout>
-            <Center>
-                <Container>
-                    <SubTitle>Your Code</SubTitle>
-                    <Title>
-                        {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
-                    </Title>
-                    <CandidatesContainer onSubmit={handleSubmit} id="female">
-                        <Candidate
-                            name="Poraor"
-                            subname="ปอ-ออ"
-                            selected={selection === 1}
-                            onClick={() => setSelection(1)}
-                        />
-                        <Candidate
-                            name="Looknam"
-                            subname="ลูกนํ้า"
-                            selected={selection === 2}
-                            onClick={() => setSelection(2)}
-                        />
-                        <Candidate
-                            name="Chaba"
-                            subname="ชบา"
-                            selected={selection === 3}
-                            onClick={() => setSelection(3)}
-                        />
-                    </CandidatesContainer>
-                    <Button type="submit" form="female">
-                        Vote now!
-                    </Button>
-                </Container>
-            </Center>
-        </Layout>
+        <Container>
+            <SubTitle>Your Code</SubTitle>
+            <Title>
+                {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
+            </Title>
+            <CandidatesContainer onSubmit={handleSubmit} id="female">
+                <Candidate
+                    name="Poraor"
+                    subname="ปอ-ออ"
+                    selected={selection === 1}
+                    onClick={() => setSelection(1)}
+                />
+                <Candidate
+                    name="Looknam"
+                    subname="ลูกนํ้า"
+                    selected={selection === 2}
+                    onClick={() => setSelection(2)}
+                />
+                <Candidate
+                    name="Chaba"
+                    subname="ชบา"
+                    selected={selection === 3}
+                    onClick={() => setSelection(3)}
+                />
+            </CandidatesContainer>
+            <Button type="submit" form="female">
+                Vote now!
+            </Button>
+        </Container>
     )
 }
 
