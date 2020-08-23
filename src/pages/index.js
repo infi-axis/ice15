@@ -39,7 +39,7 @@ const IndexPage = () => {
                     <SubTitle>ICE15</SubTitle>
                     <Title>Head Election</Title>
                     <InputsContainer>
-                        <Input inputMode="decimal" autoFocus {...digits[0]} />
+                        <Input inputMode="decimal" {...digits[0]} />
                         <Input inputMode="decimal" {...digits[1]} />
                         <Input inputMode="decimal" {...digits[2]} />
                         <Dash />

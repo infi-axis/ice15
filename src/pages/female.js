@@ -35,7 +35,7 @@ const Container = styled.div`
     align-items: flex-start;
 
     height: auto;
-    width: 300px;
+    width: 340px;
 
     @media screen and (min-width: 1024px) {
         position: relative;
@@ -71,12 +71,9 @@ const Dash = styled.div`
 `
 
 const CandidatesContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     margin-top: 1.25rem;
-
-    & > *:not(:first-child) {
-        margin-top: 0.675rem;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 20px;
 `
