@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
@@ -7,14 +7,11 @@ import Candidate from "../components/candidate"
 import Button from "../components/button"
 import { navigate } from "gatsby"
 
+const candidates = ["", "Guide", "Boon", "Patton", "Punn"]
+
 const SelectionPage = () => {
     const [selection, setSelection] = useState("")
-    const [load, setLoad] = useState(false)
     const [code] = useState(localStorage.getItem("couponId"))
-
-    const handleSelect = cid => {
-        setSelection(cid)
-    }
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -22,9 +19,7 @@ const SelectionPage = () => {
     }
 
     const verifyInput = () => {
-        if (!selection) {
-            alert("Select a candidate")
-        } else {
+        if (selection) {
             localStorage.setItem("male", selection)
             navigate("/female")
         }
@@ -33,12 +28,10 @@ const SelectionPage = () => {
     useEffect(() => {
         if (!localStorage.getItem("couponId")) {
             navigate("/", { replace: true })
-        } else {
-            setLoad(true)
         }
     }, [])
 
-    return load ? (
+    return (
         <Layout>
             <Center>
                 <Container>
@@ -49,40 +42,36 @@ const SelectionPage = () => {
                     <CandidatesContainer onSubmit={handleSubmit} id="male">
                         <Candidate
                             name="Guide"
-                            cid="1"
                             subname="ไกด์"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 1}
+                            onClick={() => setSelection(1)}
                         />
                         <Candidate
                             name="Boon"
-                            cid="2"
                             subname="บุ๋น"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 2}
+                            onClick={() => setSelection(2)}
                         />
                         <Candidate
                             name="Patton"
-                            cid="3"
                             subname="แพตตั้น"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 3}
+                            onClick={() => setSelection(3)}
                         />
                         <Candidate
                             name="Punn"
-                            cid="4"
                             subname="ปัน"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 4}
+                            onClick={() => setSelection(4)}
                         />
                     </CandidatesContainer>
-                    <Button type="submit" form="male">
-                        Vote now!
-                    </Button>
+                    <SubmitButton type="submit" form="male">
+                        Vote <Highlight>{candidates[selection]}</Highlight>!
+                    </SubmitButton>
                 </Container>
             </Center>
         </Layout>
-    ) : null
+    )
 }
 
 export default SelectionPage
@@ -93,7 +82,7 @@ const Container = styled.div`
     align-items: flex-start;
 
     height: auto;
-    width: 340px;
+    width: 300px;
 
     @media screen and (min-width: 1024px) {
         position: relative;
@@ -133,5 +122,15 @@ const CandidatesContainer = styled.form`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 1.25rem;
+`
+
+const SubmitButton = styled(Button)`
+    font-weight: 400;
+`
+
+const Highlight = styled.span`
+    display: inline-block;
+    font-weight: 700;
+    margin-left: 0.25rem;
 `

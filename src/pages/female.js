@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
+import { navigate } from "gatsby"
 
 import Layout from "../components/layout"
 import Center from "../components/center"
 import Candidate from "../components/candidate"
 import Button from "../components/button"
-import { navigate } from "gatsby"
 import axios from "axios"
 
 const SelectionPage = () => {
     const [selection, setSelection] = useState("")
-    const [load, setLoad] = useState(false)
     const [code] = useState(localStorage.getItem("couponId"))
-
-    const handleSelect = cid => {
-        setSelection(cid)
-    }
 
     const handleSubmit = event => {
         event.preventDefault()
@@ -32,12 +27,6 @@ const SelectionPage = () => {
     }
 
     const submitVote = () => {
-        console.log({
-            couponId: localStorage.getItem("couponId"),
-            male: localStorage.getItem("male"),
-            female: localStorage.getItem("female"),
-        })
-
         axios
             .post(
                 "https://us-central1-ice15-e33ad.cloudfunctions.net/vote",
@@ -68,12 +57,10 @@ const SelectionPage = () => {
         } else if (!localStorage.getItem("male")) {
             navigate("/male", { replace: true })
             alert("Select male candidate first")
-        } else {
-            setLoad(true)
         }
     }, [])
 
-    return load ? (
+    return (
         <Layout>
             <Center>
                 <Container>
@@ -84,24 +71,21 @@ const SelectionPage = () => {
                     <CandidatesContainer onSubmit={handleSubmit} id="female">
                         <Candidate
                             name="Poraor"
-                            cid="1"
                             subname="ปอ-ออ"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 1}
+                            onClick={() => setSelection(1)}
                         />
                         <Candidate
                             name="Looknam"
-                            cid="2"
                             subname="ลูกนํ้า"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 2}
+                            onClick={() => setSelection(2)}
                         />
                         <Candidate
                             name="Chaba"
-                            cid="3"
                             subname="ชบา"
-                            selected={selection}
-                            onClick={handleSelect}
+                            selected={selection === 3}
+                            onClick={() => setSelection(3)}
                         />
                     </CandidatesContainer>
                     <Button type="submit" form="female">
@@ -110,7 +94,7 @@ const SelectionPage = () => {
                 </Container>
             </Center>
         </Layout>
-    ) : null
+    )
 }
 
 export default SelectionPage
@@ -121,7 +105,7 @@ const Container = styled.div`
     align-items: flex-start;
 
     height: auto;
-    width: 340px;
+    width: 300px;
 
     @media screen and (min-width: 1024px) {
         position: relative;
@@ -161,5 +145,5 @@ const CandidatesContainer = styled.form`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 1.25rem;
 `

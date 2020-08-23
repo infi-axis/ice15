@@ -1,50 +1,68 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useCallback } from "react"
 import styled from "styled-components"
 import useDigitInput from "react-digit-input"
+import axios from "axios"
+import { motion } from "framer-motion"
+import { navigate } from "gatsby"
 
 import Layout from "../components/layout"
 import Center from "../components/center"
 import Politician from "../components/politician"
 import Button from "../components/button"
-import { navigate } from "gatsby"
-import axios from "axios"
+import Wave from "../components/wave"
+
+const url = "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode"
+const options = { headers: { "Content-Type": "application/json" } }
+
+const containerVariants = {
+    normal: {},
+    invalid: {},
+}
+
+const inputVariants = {
+    normal: {
+        border: "2px solid hsl(349, 92%, 54%, 0)",
+    },
+    invalid: {
+        border: "2px solid hsl(349, 92%, 54%, 1)",
+    },
+}
 
 const IndexPage = () => {
-    const [value, onChange] = React.useState("")
+    const [couponId, setCouponId] = React.useState("")
+    const [loading, setLoading] = React.useState(false)
+    const [invalid, setInvalid] = React.useState(false)
+
+    const onChange = useCallback(
+        value => {
+            setCouponId(value)
+            if (invalid) {
+                setInvalid(false)
+            }
+        },
+        [invalid, setCouponId, setInvalid]
+    )
+
     const digits = useDigitInput({
         acceptedCharacters: /^\w+$/,
-        length: 6,
-        value,
+        value: couponId,
         onChange,
+        length: 6,
     })
 
-    const verifyInput = () => {
-        axios
-            .post(
-                "https://us-central1-ice15-e33ad.cloudfunctions.net/verifyCode",
-                {
-                    couponId: value,
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then(res => {
-                if (res.status === 200) {
-                    localStorage.setItem("couponId", value)
-                    navigate("/male")
-                }
-            })
-            .catch(err => {
-                alert(err.response.data)
-            })
-    }
-
-    const handleSubmit = event => {
-        event.preventDefault()
-        verifyInput()
+    const onClick = async () => {
+        try {
+            setLoading(true)
+            const body = { couponId }
+            const res = await axios.post(url, body, options)
+            if (res.status === 200) {
+                localStorage.setItem("couponId", couponId)
+                navigate("/male")
+            }
+        } catch (err) {
+            setLoading(false)
+            setInvalid(true)
+        }
     }
 
     useEffect(() => {
@@ -58,17 +76,31 @@ const IndexPage = () => {
                     <Politician />
                     <SubTitle>ICE15</SubTitle>
                     <Title>Head Election</Title>
-                    <InputsContainer onSubmit={handleSubmit} id="code">
-                        <Input inputMode="decimal" {...digits[0]} />
-                        <Input inputMode="decimal" {...digits[1]} />
-                        <Input inputMode="decimal" {...digits[2]} />
+                    <InputsContainer
+                        animate={invalid ? "invalid" : "normal"}
+                        initial="normal"
+                        variants={containerVariants}
+                    >
+                        {digits.slice(0, 3).map((digit, index) => (
+                            <Input
+                                key={index}
+                                variants={inputVariants}
+                                inputMode="decimal"
+                                {...digit}
+                            />
+                        ))}
                         <Dash />
-                        <Input inputMode="decimal" {...digits[3]} />
-                        <Input inputMode="decimal" {...digits[4]} />
-                        <Input inputMode="decimal" {...digits[5]} />
+                        {digits.slice(3, 6).map((digit, index) => (
+                            <Input
+                                key={index + 3}
+                                variants={inputVariants}
+                                inputMode="decimal"
+                                {...digit}
+                            />
+                        ))}
                     </InputsContainer>
-                    <Button type="submit" form="code">
-                        Next
+                    <Button onClick={onClick}>
+                        {loading ? <Wave /> : "Next"}
                     </Button>
                 </Container>
             </Center>
@@ -107,7 +139,7 @@ const Title = styled.h1`
     color: #3d3d3d;
 `
 
-const InputsContainer = styled.form`
+const InputsContainer = styled(motion.div)`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -119,7 +151,7 @@ const InputsContainer = styled.form`
     }
 `
 
-const Input = styled.input.attrs({ type: "text" })`
+const Input = styled(motion.input).attrs({ type: "text" })`
     min-height: 48px;
     width: 36px;
     background: #f5f5f5;
