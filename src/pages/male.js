@@ -21,7 +21,7 @@ const SelectionPage = () => {
                         <Candidate name="Patton" subname="แพตตั้น" />
                         <Candidate name="Punn" subname="ปัน" />
                     </CandidatesContainer>
-                    <Button>Vote now!</Button>
+                    <Button to="/female">Vote now!</Button>
                 </Container>
             </Center>
         </Layout>
