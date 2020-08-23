@@ -25,12 +25,24 @@ const circleVariants = {
     },
 }
 
-const Wave = () => {
+const Wave = ({ color }) => {
     return (
         <Container animate="end" initial="start" variants={containerVariants}>
-            <Circle transition={transition} variants={circleVariants} />
-            <Circle transition={transition} variants={circleVariants} />
-            <Circle transition={transition} variants={circleVariants} />
+            <Circle
+                color={color}
+                transition={transition}
+                variants={circleVariants}
+            />
+            <Circle
+                color={color}
+                transition={transition}
+                variants={circleVariants}
+            />
+            <Circle
+                color={color}
+                transition={transition}
+                variants={circleVariants}
+            />
         </Container>
     )
 }
@@ -49,7 +61,7 @@ const Circle = styled(motion.span)`
     display: block;
     width: 0.5rem;
     height: 0.5rem;
-    background: white;
+    background: ${props => props.color || "whtie"};
     border-radius: 50%;
 
     &:not(:first-child) {

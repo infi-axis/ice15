@@ -1,36 +1,14 @@
 import React, { useState, useLayoutEffect } from "react"
 import styled from "styled-components"
-import axios from "axios"
 import { navigate } from "gatsby"
 
+import Header from "../components/header"
 import Candidate from "../components/candidate"
 
-const url = "https://us-central1-ice15-e33ad.cloudfunctions.net/vote"
-const options = { headers: { "Content-Type": "application/json" } }
-
 const SelectionPage = () => {
-    const [code, setCode] = useState("")
-
     const onClick = id => {
         localStorage.setItem("female", id)
-        submitVote()
-    }
-
-    const submitVote = async () => {
-        try {
-            const body = {
-                couponId: localStorage.getItem("couponId"),
-                male: localStorage.getItem("male"),
-                female: localStorage.getItem("female"),
-            }
-
-            const res = await axios.post(url, body, options)
-            if (res.status === 200) {
-                navigate("/farewell")
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        navigate("/submitting")
     }
 
     useLayoutEffect(() => {
@@ -38,17 +16,12 @@ const SelectionPage = () => {
             navigate("/", { replace: true })
         } else if (!localStorage.getItem("male")) {
             navigate("/male", { replace: true })
-        } else {
-            setCode(localStorage.getItem("couponId"))
         }
     }, [])
 
     return (
         <Container>
-            <SubTitle>Your Code</SubTitle>
-            <Title>
-                {code.slice(0, 3)} <Dash /> {code.slice(3, 6)}
-            </Title>
+            <Header title="Candidates" subtitle="Female" color="#E891F9" />
             <CandidatesContainer>
                 <Candidate
                     name="Poraor"
@@ -79,38 +52,12 @@ const Container = styled.div`
 
     height: auto;
     width: 300px;
+    top: -3%;
 
     @media screen and (min-width: 1024px) {
         position: relative;
-        top: -3%;
+        top: -6%;
     }
-`
-
-const SubTitle = styled.h2`
-    font-weight: 600;
-    font-size: 1rem;
-    text-transform: none;
-    color: #1c9fff;
-    margin-top: 0.75rem;
-`
-
-const Title = styled.h1`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-weight: 700;
-    font-size: 28px;
-    color: #4d4d4d;
-`
-
-const Dash = styled.div`
-    display: inline-block;
-    width: 9px;
-    height: 3px;
-    background: #d1d1d1;
-    vertical-align: center;
-    margin: 0 0.25rem;
 `
 
 const CandidatesContainer = styled.div`
