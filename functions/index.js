@@ -84,7 +84,11 @@ exports.vote = functions.https.onRequest((req, res) => {
                     femaleRef.update({
                         votes: admin.firestore.FieldValue.increment(1),
                     })
-                    couponRef.update({ isUsed: true })
+                    couponRef.update({
+                        isUsed: true,
+                        "voted.male": male,
+                        "voted.female": female,
+                    })
                     return res.status(200).send("Success")
                 }
                 return res.status(404).send("Invalid coupon")
@@ -160,3 +164,38 @@ exports.frealtimeUpdate = functions.firestore
         }
         await sheets.spreadsheets.values.update(request, {})
     })
+
+exports.cancelVote = functions.https.onRequest(async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*")
+    res.set("Access-Control-Allow-Methods", "GET, POST")
+    res.set("Access-Control-Allow-Headers", "Content-Type")
+    res.setHeader("Content-Type", "application/json")
+    if (req.method === "POST") {
+        const { secret, couponId } = req.body
+        if (secret !== config.secret.generate)
+            return res.status(401).send("Unauthorized")
+        const couponRef = admin.firestore().collection("coupons").doc(couponId)
+        couponRef.update({ isUsed: false })
+        admin.firestore().runTransaction(t => {
+            return t.get(couponRef).then(couponDoc => {
+                const data = couponDoc.data()
+                const mVoteRef = admin
+                    .firestore()
+                    .collection("m-candidates")
+                    .doc(data.voted.male)
+                const fVoteRef = admin
+                    .firestore()
+                    .collection("f-candidates")
+                    .doc(data.voted.female)
+                t.update(mVoteRef, {
+                    votes: admin.firestore.FieldValue.increment(-1),
+                })
+                t.update(fVoteRef, {
+                    votes: admin.firestore.FieldValue.increment(-1),
+                })
+                t.update(couponRef, { isUsed: false, voted: {} })
+                return res.status(200).send("Success")
+            })
+        })
+    }
+})
