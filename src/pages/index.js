@@ -82,6 +82,7 @@ const IndexPage = () => {
                     <Input
                         key={index}
                         variants={inputVariants}
+                        placeholder="x"
                         inputMode="text"
                         {...digit}
                     />
@@ -91,6 +92,7 @@ const IndexPage = () => {
                     <Input
                         key={index + 3}
                         variants={inputVariants}
+                        placeholder="x"
                         inputMode="text"
                         {...digit}
                     />
@@ -161,6 +163,10 @@ const Input = styled(motion.input).attrs({ type: "text" })`
     border: none;
     outline: none;
     appearance: none;
+
+    &::placeholder {
+        color: hsl(0, 0%, 83%);
+    }
 `
 
 const Dash = styled.div`
